@@ -1,0 +1,67 @@
+{% extends "layout.html"%}
+
+{% block body %}
+<!-- 
+	Mes_projets : liste d'éléments de la forme (id_projet, titre_projet, id_proprio, description_projet)
+	liste_proj_a_asso : liste de listes de la forme [id_projet_demandeur, titre_demandeur, id_prorio_demandeur, description_projet_demandeur,message_de_demande,(Nom_demandeur,Prénom_demandeur),(id_projet_cible,titre_projet_cible)]
+-->
+
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<title>Gérer mes projets| Participa'TN </title>
+	<link rel="stylesheet" href="static/css/bootstrap.css">
+  <script source="static/js/bootstrap.js"></script>
+</head>
+<body>
+
+	<div class="topnav topnav-right" id="myTopnav">
+		<a href="/"> <strong>Accueil</strong> </a>
+		<a href="/projets-partages">Projets partagés</a>
+		<a href="/projets-groupes">Projets groupés</a>
+        <a href="/proposition-projet"> Proposer mon projet</a>
+        <a class="active" href="/gestion-projet"> Gérer mes projets </a>
+		<a href="/a-propos">A propos</a>
+		{% if not session.id_sess %}
+		<a href="/user_login">Se connecter</a>
+    	{% else %}
+    	<a href="/logout">Se déconnecter</a>
+    	{% endif %}
+		<a href="javascript:void(0);" class="icon" onclick="myFunction()" >
+			<i class="fa fa-bars"></i>
+		</a>
+	</div>
+
+	{% if not session.id_sess %}
+	Vous n'êtes pas connecté     <a href="/user_login">login</a>.
+   	{% else %}
+    
+    <!-- <h4>Edit projet {{id}}</h4> -->
+    
+    {%for ele in Mes_projets%}
+	
+    <form method="post">
+        <div class="form-group">
+            <label for="projet_desc">Description du projet {{ele[0][0]}}</label>
+            <textarea name="nlle_desc" placeholder="{{desc_modif}}" class="form-control">{{ request.form["projet_desc"] or post["projet_desc"] }}</textarea>
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary"> Modifier </button>
+        </div>
+    </form>
+	{%endfor%}
+
+    {%endif%}
+	<script>
+		function myFunction() {
+		  var x = document.getElementById("myTopnav");
+		  if (x.className === "topnav") {
+			x.className += " responsive";
+		  } else {
+			x.className = "topnav";
+		  }
+		}
+	</script>
+
+</body>
+{% endblock %}

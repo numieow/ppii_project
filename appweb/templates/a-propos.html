@@ -1,0 +1,136 @@
+{% extends "layout.html"%}
+
+{% block body %}
+
+<!-- ARGUMENTS : 
+    nb_projets : entier qui correspond au nombre de projets dans la base de données
+	nb_hubs : entier qui correspond au nombre de hubs dans la base de données
+	nb_comptes : entier qui correspond au nombre de comptes dans la base de données
+  -->
+
+  <head>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<title> A propos | Participa'TN </title>
+  <link rel="stylesheet" href="static/css/bootstrap.css">
+  <link rel="stylesheet" href="static/css/test2.css">
+  <script source="static/css/bootstrap.jc"></script>
+</head>
+<body>
+
+
+    <div class="site-mobile-menu">
+      <div class="site-mobile-menu-header">
+      <div class="site-mobile-menu-close mt-3">
+        <span class="icon-close2 js-menu-toggle"></span>
+      </div>
+      </div>
+      <div class="site-mobile-menu-body"></div>
+    </div>
+    
+    <header class="site-navbar" role="banner" id="myTopnav">
+        <div class="container">
+          <div class="row align-items-center">
+            <div class="col-12 col-md-10 d-none d-xl-block">
+              <nav class="site-navigation position-relative text-right" role="navigation">
+                <ul class="site-menu js-clone-nav mr-auto d-none d-lg-block">
+                  <li><a href="/"><span>Accueil</span></a></li>
+                  <li class="has-children">
+                    <a href="/projets-partages"><span>Projets</span></a>
+                    <ul class="dropdown">
+                      <li><a href="/projets-partages"><span>Projets partagés</span></a></li>
+                      <li><a href="/projets-groupes"><span>Projets groupés</span></a></li>
+                    </ul>
+                  </li>
+                  <li><a href="/proposition-projet"><span>Proposer un projet</span></a></li>
+                  <li class="has-children">	
+                    <a href="/page-user"><span>Mon compte</span></a>
+                    <ul class="dropdown">
+                      <li><a href="/gestion-projet"><span>Gérer mes projets</span></a></li>
+                      <li><a href="/page-user"><span>Mon compte</span></a></li>
+                    </ul>
+                  </li>
+                  <li class="active"><a href="/a-propos"><span>A propos</span></a></li>
+                
+                  <!-- <a href="javascript:void(0);" class="icon" onclick="myFunction()" >
+                    <i class="fa fa-bars"></i>
+                  </a> -->
+                
+                  {% if not session.id_sess %}
+                  <li><a href="/user_login"><span>Se connecter</span></a></li>
+                  {% else %}
+                  <li><a href="/logout"><span>Se déconnecter</span></a></li>
+                  {% endif %}
+                </ul>
+              </nav>
+            </div>
+          </div>
+        </div>
+    </header>
+	<br>
+	<br>
+	<br>
+    <div  style="background: white;width: 80%; margin-left: 10% ;border-radius : 40px">
+        <br>
+		<br>
+	<div class="bord">
+    <h1 class="text-center"><strong> A propos </strong></h1>	
+        <br><br>
+
+          <!-- <a style="text-decoration: none; color : darkgray" href="mentions-legales">Mentions légales</a>
+          <a style="text-decoration: none; color : darkgray" href="confidentialite">Confidentialité</a> -->
+
+    <h4 class="font-weight-bold text-success">Objectif principal :</h4>
+	<p class="text-justify">Création d'une vitrine de projets rassemblant des projets auparavant refusés par des conseils participatifs.</p>
+	<p class="text-justify">Lorsque des projets seront refusés par la mairie, leurs instigateurs (utilisateurs de la plateforme) pourront recevoir un code à rentrer dans notre interface web afin d'y déposer leurs projets. Le projet comportera une description générale, puis il faudra préciser un positionnement thématique et par mots-clés*. L'utilisateur aura ensuite la possibilité de fusionner** son projet avec celui d'autres utilisateurs afin de créer des hubs/groupes de projets.
+	par Les autres utilisateurs, quant à eux, pourront voir les projets et les hubs mis en vitrine, faire des recherches par thèmes/mots-clés et supporter ou donner leur avis sur les différents projets ou groupes de projets par un système de like/dislike et commentaires.</p>
+
+	<br>
+	<h4 class="text-success">*<strong>Création d'un projet :</strong></h4>
+	<p class="text-justify">L'utilisateur décrira son projet ainsi que son positionnement thématique et par mots-clés. Lors de sa saisie, la plateforme lui proposera des suggestions en fonction des mots-clés les plus utilisés et ceux qu'il aura déjà utilisés. Il devra ensuite rentrer le code que la mairie lui aura fourni afin de pouvoir uploader son projet sur l'application. Enfin, il devra nécessairement expliciter les raisons qui ont poussé la mairie à refuser un financement.
+	Des projets lui seront ensuite suggérés, à partir des informations qu'il aura saisies, pour d'éventuelles associations.</p>
+
+	<br>
+	<h4 class="text-success">**<strong>Fusion de projets :</strong></h4>
+	<p class="text-justify">Lorsqu'un utilisateur voudra fusionner son projet avec un autre projet ou un hub déjà existant, il pourra envoyer une demande de fusion. Lorsque celle-ci sera acceptée, les coordonnées de tous les participants seront partagées dans le hub.
+	<ul>
+		<il ><b><u>Si l'utilisateur fusionne avec un autre projet</u> :</b> les participants devront choisir un responsable de projet (de communication) qui recevra les mails de la métropole et/ou des entreprises intéressées par le hub, ainsi que ceux des demandeurs d'adhésion. Le hub devra être complètement décrit à nouveau (en associant les projets), et le positionnement thématique et les mots-clés redéfinis.</il>
+		<br>
+		<il><b><u>Si l'utilisateur fusionne avec un hub</u> :</b> le responsable de communication choisi lors de la création du hub ainsi que la description du hub (thématique et mots-clés) ne changent pas. L'utilisateur se joint simplement à un groupe déjà existant.</il>
+	</ul>
+    </p>
+	<p class="text-justify">Si un participant ne veut plus faire partie du hub, il pourra s'en désolidariser et son projet reviendra en vitrine parmi les projets solitaires.</p>
+
+	<br>
+	<h4 class="font-weight-bold text-success">Autres :</h4>
+	<ul>
+		<il>Si un projet fait partie d'un hub, il ne peut plus demander à s'associer à d'autres projets/hubs</il>
+		<il>Deux hubs ne peuvent pas s'associer entre eux</il>
+		<il>Les projets présents dans les hubs apparaissent toujours dans l'onglet "Projets partagés"</il>
+		<il>Un projet peut avoir trois status : "Seul", "Dans un hub", "Validé/Fait"</il>
+	</ul>
+
+	<br>
+    <h4 class="font-weight-bold text-success"> Chiffres clés</h4>
+	<p>Nombre de projets sur le site : {{nb_projets}}</p>
+	<p>Nombre de hubs sur le site : {{nb_hubs}}</p>
+	<p>Nombre d'utilisateurs sur le site : {{nb_comptes}}</p>
+	</div>
+	<br>
+    </div>
+	<script>
+		function myFunction() {
+		  var x = document.getElementById("myTopnav");
+		  if (x.className === "topnav") {
+			x.className += " responsive";
+		  } else {
+			x.className = "topnav";
+		  }
+		}
+	</script>
+
+	<br><br><br>
+
+
+</body>
+{% endblock %}

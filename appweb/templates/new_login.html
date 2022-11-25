@@ -1,0 +1,190 @@
+{% extends "layout.html"%}
+
+{% block body %}
+
+<!-- ARGUMENTS : 
+    err : message d'erreur si l'identifiant ou le mot de passe est incorrect, OPTIONNEL
+    err_mail : autre message d'erreur, OPTIONNEL
+  -->
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <title> Se connecter | Participa'TN </title>
+  <link rel="stylesheet" href="static/css/bootstrap.css">
+  <link rel="stylesheet" href="static/css/signin.css">
+
+  <script source="static/js/bootstrap.js"></script>
+
+  <link rel="stylesheet" href="static/css/test2.css">
+  <script source="static/css/bootstrap.jc"></script>
+
+</head>
+
+<body style="align-items: center;
+background-color: #f5f5f5;">
+
+  <div class="site-mobile-menu">
+    <div class="site-mobile-menu-header">
+      <div class="site-mobile-menu-close mt-3">
+        <span class="icon-close2 js-menu-toggle"></span>
+      </div>
+    </div>
+    <div class="site-mobile-menu-body"></div>
+  </div>
+
+  <header class="site-navbar" role="banner" id="myTopnav">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-12 col-md-10 d-none d-xl-block">
+          <nav class="site-navigation position-relative text-right" role="navigation">
+            <ul class="site-menu js-clone-nav mr-auto d-none d-lg-block">
+              <li><a href="/"><span>Accueil</span></a></li>
+              <li class="has-children">
+                <a href="/projets-partages"><span>Projets</span></a>
+                <ul class="dropdown">
+                  <li><a href="/projets-partages"><span>Projets partagés</span></a></li>
+                  <li><a href="/projets-groupes"><span>Projets groupés</span></a></li>
+                </ul>
+              </li>
+              <li><a href="/proposition-projet"><span>Proposer un projet</span></a></li>
+              <li class="has-children">
+                <a href="/page-user"><span>Mon compte</span></a>
+                <ul class="dropdown">
+                  <li><a href="/gestion-projet"><span>Gérer mes projets</span></a></li>
+                  <li><a href="/page-user"><span>Mon compte</span></a></li>
+                </ul>
+              </li>
+              <li><a href="/a-propos"><span>A propos</span></a></li>
+
+              <!-- <a href="javascript:void(0);" class="icon" onclick="myFunction()" >
+                    <i class="fa fa-bars"></i>
+                  </a> -->
+
+              {% if not session.id_sess %}
+              <li class="active"><a href="/user_login"><span>Se connecter</span></a></li>
+              {% else %}
+              <li><a href="/logout"><span>Se déconnecter</span></a></li>
+              {% endif %}
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </header>
+  <br>
+
+  <main>
+    <div class="container">
+      <form method="POST" class="form-horizontal" action="/ajout_compte">
+        <div class="row">
+          <div class="col-md-10 mt-60 mx-md-auto">
+            <div class="login-box bg-white pl-lg-5 pl-0">
+              <div class="row no-gutters align-items-center">
+                <div class="col-md-7">
+                  <div class="form-wrap bg-white">
+                    <h3 class="btm-sep pb-3 mb-5">Créer un compte</h3>
+                    <form class="form" method="POST" action="/ajout_compte">
+                      <div class="row">
+                        <tr>
+                          <td>
+                            <div class="col-6">
+                              <div class="form-group ">
+                                <label class="form-label" for="prenom">Prénom</label>
+                                <input type="text" id="prenom" class="form-control" name="first_name" required /> <label
+                                  class="form-label" for="identifiant"></label>
+                              </div>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="col-6">
+                              <div class="form-group ">
+                                <label class="form-label" for="nom">Nom</label>
+                                <input type="text" id="nom" class="form-control" name="last_name" required />
+                              </div>
+                            </div>
+                          </td>
+                        </tr>
+                        <div class="col-12">
+                          <div class="form-group position-relative">
+                            <label class="form-label" for="email">Email</label>
+                            <input type="email" id="email" class="form-control" name="user_mail"
+                              placeholder="exemple@mail.com" required />
+                          </div>
+                        </div>
+                        <strong style="color:red">{{err_mail}}</strong>
+                        <tr>
+                          <td>
+                            <div class="col-12">
+                              <div class="form-group position-relative">
+                                <label class="form-label" for="password">Mot de passe</label>
+                                <input type="password" id="password" class="form-control" name="password" required />
+                                <label class="form-label" for="password"></label>
+                                <div class="col-12 text-lg-right">
+                                  <input type="checkbox" onclick="Afficher()"> Afficher le mot de passe 
+                                </div>
+                              </div>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="col-12">
+                              <div class="form-group position-relative">
+                                <label class="form-label" for="password_confirm">Confirmation du mot de passe</label>
+                                <input type="password" id="password" class="form-control" name="password_confirm"
+                                  placeholder="" required />
+                              </div>
+                            </div>
+                            <strong style="color:red">{{err_password}}</strong>
+                          </td>
+                        </tr>
+                        <div>
+                          <input type="checkbox" required/> <FONT size="2">En cochant cette case, vous acceptez les <a href="/mentions-legales">Conditions Générales</a>. En savoir plus sur la <a href="/confidentialite">Confidentialité</a> de vos données.</FONT>
+                        </div>
+                        <div class="col-12 mt-30">
+                          <button type="submit" class="btn btn-success btn-block mb-5">Créer le compte</button>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+                <div class="col-md-25">
+                  <div class="content text-center">
+                    <div class=" pb-6 mb-5 c-black">
+                      <h4 class="c-black"> &emsp;&ensp; Vous avez un compte?</h4>
+                      &emsp;&ensp; <a href="/user_login"> Se connecter</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+
+  </main>
+
+
+  <script>
+    function Afficher() {
+      var input = document.getElementById("password");
+      if (input.type == "password") {
+        input.type = "text";
+      }
+      else {
+        input.type = "password";
+      }
+    }
+
+    function myFunction() {
+      var x = document.getElementById("myTopnav");
+      if (x.className === "topnav") {
+        x.className += " responsive";
+      } else {
+        x.className = "topnav";
+      }
+    }
+  </script>
+
+</body>
+{% endblock %}

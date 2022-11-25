@@ -1,0 +1,144 @@
+{% extends "layout.html"%}
+
+{% block body %}
+
+<!-- ARGUMENTS : 
+    mots_cles : liste des mots-clés définis en haut de interface.py
+  -->
+
+<head>
+  
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<title> Projets partagés | Participa'TN </title>
+  <link rel="stylesheet" href="static/css/bootstrap.css">
+  <link rel="stylesheet" href="static/css/test2.css">
+  <script source="static/css/bootstrap.jc"></script>
+
+  <!--Module de multiple selection vient de : https://github.com/jiestrada/multiple-selected-->
+  <link rel="stylesheet" type="text/css" href="../static/css/multiple-select.css" />
+</head>
+<body>
+
+
+  <div class="site-mobile-menu">
+    <div class="site-mobile-menu-header">
+    <div class="site-mobile-menu-close mt-3">
+      <span class="icon-close2 js-menu-toggle"></span>
+    </div>
+    </div>
+    <div class="site-mobile-menu-body"></div>
+  </div>
+  
+  <header class="site-navbar" role="banner" id="myTopnav">
+      <div class="container">
+        <div class="row align-items-center">
+          <div class="col-12 col-md-10 d-none d-xl-block">
+            <nav class="site-navigation position-relative text-right" role="navigation">
+              <ul class="site-menu js-clone-nav mr-auto d-none d-lg-block">
+                <li><a href="/"><span>Accueil</span></a></li>
+                <li class="has-children">
+                  <a href="/projets-partages"><span>Projets</span></a>
+                  <ul class="dropdown">
+                    <li><a href="/projets-partages"><span>Projets partagés</span></a></li>
+                    <li><a href="/projets-groupes"><span>Projets groupés</span></a></li>
+                  </ul>
+                </li>
+                <li class="active"><a href="/proposition-projet"><span>Proposer un projet</span></a></li>
+                <li class="has-children">	
+                  <a href="/page-user"><span>Mon compte</span></a>
+                  <ul class="dropdown">
+                    <li><a href="/gestion-projet"><span>Gérer mes projets</span></a></li>
+                    <li><a href="/page-user"><span>Mon compte</span></a></li>
+                  </ul>
+                </li>
+                <li><a href="/a-propos"><span>A propos</span></a></li>
+              
+                <!-- <a href="javascript:void(0);" class="icon" onclick="myFunction()" >
+                  <i class="fa fa-bars"></i>
+                </a> -->
+              
+                {% if not session.id_sess %}
+                <li><a href="/user_login"><span>Se connecter</span></a></li>
+                {% else %}
+                <li><a href="/logout"><span>Se déconnecter</span></a></li>
+                {% endif %}
+              </ul>
+            </nav>
+          </div>
+        </div>
+      </div>
+  </header>
+
+<div style="background: white;width: 60%; margin-left: 20% ;border-radius : 40px; margin-top: 4%">
+  <br>
+<br>
+<div class="bord" style="margin-top: -5%">
+
+  <div style="text-align:center">
+    <br>
+    <form action="/avant_correction" class="formulaire" method="post" id="propose-projet">
+        <fieldset>
+            <legend><strong><u> Votre projet </u></strong></legend>
+    
+                <p><i> Les champs précédés d'une <b style="color: red;">*</b> sont obligatoires.</i></p>
+    
+
+        <div class="form-outline mb-3">
+          <input type="text" id="nom_projet" placeholder="Nom du projet" class="form-control" name="nom_projet" required/>
+          <label class="form-label" for="nom_projet"><b style="color: red;">*</b>Nom du projet</label>
+        </div>
+
+        <div class="form-outline mb-3">
+            <input type="text" id="code_projet" class="form-control" placeholder="Code de refus" name="code_projet"/>
+            <label class="form-label" for="code_projet"><b style="color: red;">*</b>Code de refus</label>
+          </div>
+
+          <div class="form-outline mb-3">
+          <textarea class="form-control" id="description" name="projet_desc" placeholder="Description du projet" rows="4"></textarea>
+          <label class="form-label" for="description">Description</label>
+        </div>
+
+
+          <select class="form-control" id="ms" multiple name="categorie">
+            {% for mot in mots_cles %}
+            <option value="{{ mot }}">{{ mot }}</option>
+            {% endfor %}
+          </select>
+          <label class="form-label">Mots-clés associés</label>
+      
+        <button type="submit" class="btn btn-success btn-block mb-3">Envoyer</button>
+    </fieldset>  
+    </form>
+  </div>
+
+</div>
+<br>
+</div>
+
+    <script>
+		function myFunction() {
+		  var x = document.getElementById("myTopnav");
+		  if (x.className === "topnav") {
+			x.className += " responsive";
+		  } else {
+			x.className = "topnav";
+		  }
+		}
+	</script>
+
+<script src="../static/js/multiple-select.js"></script>
+<script>
+  $(function() {
+      $('#ms').change(function() {
+          console.log($(this).val());
+      }).multipleSelect({
+          width: '100%',
+          filter: true
+      });
+  });
+  </script>
+ 
+
+</body>
+{% endblock %}

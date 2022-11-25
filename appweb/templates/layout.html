@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="initial-scale=1, width=device-width">
+        <link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}" type="text/css"/>
+        <link rel="stylesheet" href="static/css/bootstrap.css">
+        <script source="static/css/bootstrap.jc"></script>
+
+
+        
+        
+        {% block body %}{% endblock %}
+        <footer style="position : fixed ;bottom:15px ; left:30px">
+            <a style="text-decoration: none; color : gray" href="/a-propos">A propos</a>    |      <a style="text-decoration: none; color : gray" href="/confidentialite">Condidentialité</a>      |    <a style="text-decoration: none; color : gray" href="/mentions-legales">Mentions légales</a>
+        </footer>
+        
+        <div class="chatbox" style="position: fixed">
+            <div class="chatbox__support">
+                <div class="chatbox__header">
+                    <div class="chatbox__image--header">
+                        <img src="../static/images/SALAD.jpg" alt="image">
+                    </div>
+                    <div class="chatbox__content--header">
+                        <h4 class="chatbox__heading--header">Assistance</h4>
+                        <p class="chatbox__description--header">Bonjour, je suis SALAD, comment puis-je vous aider ?</p>
+                    </div>
+                </div>
+                <div class="chatbox__messages">
+                    <div></div>
+                </div>
+                <div class="chatbox__footer">
+                    <input type="text" placeholder="Posez votre question">
+                    <button class="chatbox__send--footer send__button">Envoyer</button>
+                </div>
+            </div>
+            <div class="chatbox__button">
+                <button><img src="{{ url_for('static', filename='images/chatbox-icon.svg') }}" /></button>
+            </div>
+        </div>
+    <script type="text/javascript" src="../static/js/app.js"></script>
+</html>

@@ -1,0 +1,139 @@
+{% extends "layout.html"%}
+
+{% block body %}
+
+<!-- ARGUMENTS :
+	infos : de la forme (id_compte, nom, prenom, contact)
+	projets : de la forme (id_projet, nom, proprietaire, commentaire), la liste des projets qui appartiennent à l'user
+-->
+
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title> Utilisateur | Participa'TN </title>
+	<link rel="stylesheet" href="../static/css/bootstrap.css">
+  	<script src="../static/js/bootstrap.js"></script>
+	<script src="../static/js/jquery.js"></script>
+	
+	<link rel="stylesheet" href="static/css/test2.css">
+	<script source="static/css/bootstrap.jc"></script>
+</head>
+<body>
+
+
+    <div class="site-mobile-menu">
+      <div class="site-mobile-menu-header">
+      <div class="site-mobile-menu-close mt-3">
+        <span class="icon-close2 js-menu-toggle"></span>
+      </div>
+      </div>
+      <div class="site-mobile-menu-body"></div>
+    </div>
+    
+    <header class="site-navbar" role="banner" id="myTopnav">
+        <div class="container">
+          <div class="row align-items-center">
+            <div class="col-12 col-md-10 d-none d-xl-block">
+              <nav class="site-navigation position-relative text-right" role="navigation">
+                <ul class="site-menu js-clone-nav mr-auto d-none d-lg-block">
+                  <li><a href="/"><span>Accueil</span></a></li>
+                  <li class="has-children">
+                    <a href="/projets-partages"><span>Projets</span></a>
+                    <ul class="dropdown">
+                      <li><a href="/projets-partages"><span>Projets partagés</span></a></li>
+                      <li><a href="/projets-groupes"><span>Projets groupés</span></a></li>
+                    </ul>
+                  </li>
+                  <li><a href="/proposition-projet"><span>Proposer un projet</span></a></li>
+                  <li class="has-children active">	
+                    <a href="/page-user"><span>Mon compte</span></a>
+                    <ul class="dropdown">
+                      <li><a href="/gestion-projet"><span>Gérer mes projets</span></a></li>
+                      <li><a href="/page-user"><span>Mon compte</span></a></li>
+                    </ul>
+                  </li>
+                  <li><a href="/a-propos"><span>A propos</span></a></li>
+                
+                  <!-- <a href="javascript:void(0);" class="icon" onclick="myFunction()" >
+                    <i class="fa fa-bars"></i>
+                  </a> -->
+                
+                  {% if not session.id_sess %}
+                  <li><a href="/user_login"><span>Se connecter</span></a></li>
+                  {% else %}
+                  <li><a href="/logout"><span>Se déconnecter</span></a></li>
+                  {% endif %}
+                </ul>
+              </nav>
+            </div>
+          </div>
+        </div>
+    </header>
+
+	<br>
+	<br>
+	<br>
+
+	<div  style="background: white;width: 80%; margin-left: 10% ;border-radius : 40px">
+        <br>
+		<br>
+		<div class="bord">
+
+			{% if not session.id_sess %}
+			Vous n'êtes pas connecté     <a href="/user_login">login</a>.
+			{% else %}
+
+			{%endif%}
+
+			{% if session.id_sess == infos[0] %}
+			<h1 class="text-center"><strong>Mon compte</strong></h1>
+			{% else %}
+			<h1 class="text-center"><strong>Compte de {{ infos[2] }} {{ infos[1] }} </strong></h1>
+			{% endif %}
+			
+			<p><strong> Prénom : </strong>{{ infos[2] }} </p>
+			<p><strong> Nom : </strong>{{ infos[1] }} </p>
+			<p><strong>Identifiant : </strong> {{infos[0]}}</p>
+			{% if session.id_sess == infos[0] %}
+			<p><strong>Mail : </strong>{{infos[3]}}</p>
+			{% else %}
+			<p><strong>Mail : </strong> <a href="mailto:{{infos[3]}}">{{infos[3]}}</a></p>
+			{% endif %}
+
+			<br>
+			<h5><strong>Liste de mes projets</strong></h5>
+			
+			<table  style="width: 100%;">
+				<colgroup>
+					<col width="10%" />
+					<col width="90%" />
+				</colgroup>
+				<tr>
+					<th style="white-space: nowrap;"> Nom :  &nbsp&nbsp</th>
+					<th style="white-space: nowrap; text-overflow:ellipsis; overflow: hidden; max-width:1px;"> Description</th>
+				</tr>
+				{% for ele in projets%}
+				<tr>
+					<th style="white-space: nowrap;"> <a href="/projets/{{ele[0]}}">{{ele[1]}}</a> &nbsp&nbsp</th>
+					<td style="white-space: nowrap; text-overflow:ellipsis; overflow: hidden; max-width:1px;"> {{ele[3]}}</td>
+					
+				</tr>
+				{% endfor %}
+			</table>
+
+		</div>
+	<br>
+    </div>
+
+    <script>
+		function myFunction() {
+		  var x = document.getElementById("myTopnav");
+		  if (x.className === "topnav") {
+			x.className += " responsive";
+		  } else {
+			x.className = "topnav";
+		  }
+		}
+	</script>
+
+</body>
+{% endblock %}

@@ -1,0 +1,207 @@
+{% extends "layout.html"%}
+
+{% block body %}
+
+<!-- ARGUMENTS : 
+    projets : liste d'éléments de la forme ((id_projet, titre_projet, id_proprio, description_projet), str(Nom_proprio Prénom_proprio),(id_hub, titre_hub),nb_com)
+    liste_hub : liste d'éléments de la forme (id_hub, titre_hub, id_respo, description_projet)
+    liste_membre : liste d'éléments de la forme (id_hub, id_membre)
+    mots_cles : la liste de nos mots-clés définie en haut d'interface.py, avec le nb de projet ayant ce mot-clé
+  -->
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title> Projets partagés | Participa'TN </title>
+
+    <!-- POUR LA LOUPE -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+
+    <!-- BOOTSTRAP CSS-->
+    <link rel="stylesheet" href="../static/css/bootstrap.css" >
+
+
+    <link rel="stylesheet" href="static/css/test2.css">
+    <script source="static/css/bootstrap.jc"></script>
+
+</head>
+<body>
+
+
+  <div class="site-mobile-menu">
+    <div class="site-mobile-menu-header">
+    <div class="site-mobile-menu-close mt-3">
+      <span class="icon-close2 js-menu-toggle"></span>
+    </div>
+    </div>
+    <div class="site-mobile-menu-body"></div>
+  </div>
+  
+  <header class="site-navbar" role="banner" id="myTopnav">
+      <div class="container">
+        <div class="row align-items-center">
+          <div class="col-12 col-md-10 d-none d-xl-block">
+            <nav class="site-navigation position-relative text-right" role="navigation">
+              <ul class="site-menu js-clone-nav mr-auto d-none d-lg-block">
+                <li><a href="/"><span>Accueil</span></a></li>
+                <li class="has-children active">
+                  <a href="/projets-partages"><span>Projets</span></a>
+                  <ul class="dropdown">
+                    <li><a href="/projets-partages"><span>Projets partagés</span></a></li>
+                    <li><a href="/projets-groupes"><span>Projets groupés</span></a></li>
+                  </ul>
+                </li>
+                <li><a href="/proposition-projet"><span>Proposer un projet</span></a></li>
+                <li class="has-children">	
+                  <a href="/page-user"><span>Mon compte</span></a>
+                  <ul class="dropdown">
+                    <li><a href="/gestion-projet"><span>Gérer mes projets</span></a></li>
+                    <li><a href="/page-user"><span>Mon compte</span></a></li>
+                  </ul>
+                </li>
+                <li><a href="/a-propos"><span>A propos</span></a></li>
+              
+                <!-- <a href="javascript:void(0);" class="icon" onclick="myFunction()" >
+                  <i class="fa fa-bars"></i>
+                </a> -->
+              
+                {% if not session.id_sess %}
+                <li><a href="/user_login"><span>Se connecter</span></a></li>
+                {% else %}
+                <li><a href="/logout"><span>Se déconnecter</span></a></li>
+                {% endif %}
+              </ul>
+            </nav>
+          </div>
+        </div>
+      </div>
+  </header>
+<div>
+  <br>
+  <h1 id="shared-projects" class="text-center"><strong>Projets partagés</strong></h1>
+  <br><br>
+
+  <div style="text-align:center">
+
+
+  <form action="/resultats-recherches" class="formulaire" method="post">
+<!---->
+    <div class="row mb" >
+
+       <div class="input-group">
+        <div class="form-outline">
+          <input name="Mot" type="search" id="recherche" class="form-control" placeholder="Rechercher"/>
+          <label class="form-label" for="recherche"  ></label>
+        </div>
+        <div class="form-outline">
+          <select type="submit"  class="form-control" id="mc" name="categorie">
+            <option value="">Mot-clé</option>
+            {% for mot in mots_cles %}
+            <option value="{{ mot[0] }}">{{ mot[0] }} ({{mot[1]}})</option>
+            {% endfor %}
+          </select>
+          <label class="form-label" for="mc"></label>
+        </div>
+        <button type="submit"   class="btn btn-primary" style="height:37px ; width:37px"> <i class="fas fa-search"></i> </button>
+      </div>
+
+    </div>
+  </form>
+  </div>
+</div>
+
+  <br><br><br>
+
+
+  <!--
+    <section class="jumbotron text-center">
+      <div class="container">
+        <h1 class="jumbotron-heading">Album example</h1>
+        <p class="lead text-muted">Something short and leading about the collection below—its contents, the creator, etc. Make it short and sweet, but not too short so folks don't simply skip over it entirely.</p>
+        <p>
+          <a href="#" class="btn btn-primary my-2">Main call to action</a>
+          <a href="#" class="btn btn-secondary my-2">Secondary action</a>
+        </p>
+      </div>
+    </section>
+  -->
+<div class="album  ">
+  <div class="container">
+    
+    <div class="row">
+      {% for ele in projets %}
+      <div class="col-md-4 " >
+        <div class="card mb-4 box-shadow">
+          <!--{{"../static/images/uploads/"+ele[0][0]|string+".png"}}-->
+          {% if os.path.exists("static/images/uploads/"+ele[0][0]|string+".png") %}
+          <img class="card-img-top" style="height: 330px" src="../static/images/uploads/{{ele[0][0]}}.png" alt="image personalisée du projet">
+          {% else %}
+          <img class="card-img-top" style="height: 330px" src="../static/idee.jpg" alt="image du projet">
+          {% endif %}
+          <div class="card-head" >
+            <span class="d-inline-block text-truncate" style="max-width: 100%;">
+              <a class="card-title" style="font-size:120%; font-weight:bold" href="/projets/{{ele[0][0]}}">{{ ele[0][1] }}</a>
+            </span>
+          </div>
+          <div class="card-body" style="height: 250px">
+            <div style="height: 180px">
+              <div class="text">{{ele[0][3]}}</div>
+           </div>
+            <div class="d-flex justify-content-between align-items-center">
+              <div class="btn-group">
+                <a class="btn btn-sm btn-outline-secondary"  href="/user/{{ele[0][2]}}"  role="button">{{ele[1]}}</a>
+                {%if ele[2] != (False, False)%}
+                <a class="btn btn-sm btn-outline-secondary"  href="/hubs/{{ele[2][0]}}"  role="button">{{ele[2][1]}}</a>
+                {%else%} 
+                <button type="button" class="btn btn-sm btn-outline-secondary">Projet Seul</button>
+                {%endif%}
+               </div>
+              
+              <!--FORM POUR LIKE
+             <form action="/interaction" class="formulaire" method="post">    
+                <div class="btn-group">
+                   <a class="btn btn-sm btn-outline-secondary"role="button">{{ele[3]}}</a>
+                   <input type = "hidden" name = "id_projet" value={{ele[0][0]}}>
+			             <input type = "hidden" name = "interact" value = "pos">
+                	 
+                   <input class="btn btn-sm btn-outline-secondary"  action="" type="submit"  role="button" value="J'aime">
+
+                    <br>
+                </div>
+              </form>
+            -->
+              
+              <small class="text-muted text-truncate" style="max-width: 100%;"> {{ele[3]}} commentaires </small> 
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+
+
+<footer class="text-muted">
+  <div class="container">
+    <p class="float-right">
+      <a style="text-decoration: none; color : black" href="#">Haut de page</a>
+    </p>
+  </div>
+</footer>
+
+
+
+
+
+
+
+
+<!-- FIN CODE OBSCURE !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!-->
+
+<script src="../static/js/jquery.js"></script>
+<script src="../static/js/bootstrap.js"></script>
+</body>
+{% endblock %}
+</html>

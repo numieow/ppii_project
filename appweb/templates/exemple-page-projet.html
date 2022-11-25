@@ -1,0 +1,289 @@
+{% extends "layout.html" %}
+
+{% block body %}
+
+<!-- ARGUMENTS :
+projet : de la forme  [(id_projet,titre_projet,id_proprio,description)]
+prop :  de la forme [(id_compte,Nom,Prénom,mail)]
+id_prop : id_compte_proprio
+liste_proj_a_asso : de la forme [id_projet_demandeur,nom_projet_demandeur,id_proprio_demandeur,description_proj_demandeur,message_demande,(nom_demandeur,prenom_demandeur), (id_cible, nom_cible)]
+hubs_incomplets : de la forme (id_hub, nom, projet_respo, commentaire), les hubs qui ont besoin de finalisation
+appartenance : string, qui informe sur le statut du projet dans le hub dont il fait partie
+membre : de la forme (id_hub, id_membre), pour savoir si le projet fait partie d'un hub
+chef : de la forme (id_hub, nom, projet_respo, commentaire), pour savoir si le projet est chef du huhb dont il fait partie
+hub : liste d'un élément, de la forme [nom], contient le nom du hub dont le projet fait partie
+lst_commentaires : de la forme [id_commentaire, id_auteur, nom_auteur prenom_auteur, commentaire], liste des commentaires faits sur ce projet
+nb_like : entier qui contient le nombre de likes sur le projet
+nb_dis : entier qui contien le nombre de dislikes sur le projet
+-->
+
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<title> Projet | Participa'TN </title>
+	<link rel="stylesheet" href="../static/css/bootstrap.css">
+  <script source="static/css/bootstrap.js"></script>
+  
+  
+  <script source="static/css/bootstrap.jc"></script>
+
+
+</head>
+<body>
+
+
+    <div class="site-mobile-menu">
+      <div class="site-mobile-menu-header">
+      <div class="site-mobile-menu-close mt-3">
+        <span class="icon-close2 js-menu-toggle"></span>
+      </div>
+      </div>
+      <div class="site-mobile-menu-body"></div>
+    </div>
+    
+    <header class="site-navbar" role="banner" id="myTopnav">
+        <div class="container">
+          <div class="row align-items-center">
+            <div class="col-12 col-md-10 d-none d-xl-block">
+              <nav class="site-navigation position-relative text-right" role="navigation">
+                <ul class="site-menu js-clone-nav mr-auto d-none d-lg-block">
+                  <li><a href="/"><span>Accueil</span></a></li>
+                  <li class="has-children active">
+                    <a href="/projets-partages"><span>Projets</span></a>
+                    <ul class="dropdown">
+                      <li><a href="/projets-partages"><span>Projets partagés</span></a></li>
+                      <li><a href="/projets-groupes"><span>Projets groupés</span></a></li>
+                    </ul>
+                  </li>
+                  <li><a href="/proposition-projet"><span>Proposer un projet</span></a></li>
+                  <li class="has-children">	
+                    <a href="/page-user"><span>Mon compte</span></a>
+                    <ul class="dropdown">
+                      <li><a href="/gestion-projet"><span>Gérer mes projets</span></a></li>
+                      <li><a href="/page-user"><span>Mon compte</span></a></li>
+                    </ul>
+                  </li>
+                  <li><a href="/a-propos"><span>A propos</span></a></li>
+                
+                  <!-- <a href="javascript:void(0);" class="icon" onclick="myFunction()" >
+                    <i class="fa fa-bars"></i>
+                  </a> -->
+                
+                  {% if not session.id_sess %}
+                  <li><a href="/user_login"><span>Se connecter</span></a></li>
+                  {% else %}
+                  <li><a href="/logout"><span>Se déconnecter</span></a></li>
+                  {% endif %}
+                </ul>
+              </nav>
+            </div>
+          </div>
+        </div>
+    </header>
+	<br>
+
+	<!--
+		<h5><i> icone indiquant la classe du projet </i></h5>
+	-->
+	<div class="container">
+		<div class="row">
+		  <div class="col-lg-50 col-xl-40 mx-auto">
+			<br>
+			<a  style="text-decoration: none; color : black" href="javascript:history.back()">Revenir à ma recherche</a>
+			<div class="card flex-row my-5 border-0 shadow rounded-3 overflow-hidden card2" style =" height: 800px ;">
+				<div class="card-header-left" style="width: 360 px;">
+					{% if os.path.exists("static/images/uploads/"+projet[0][0]|string+".png") %}
+						<img class="card-img" src="../static/images/uploads/{{projet[0][0]}}.png"  alt="image personalisée du projet">
+					{% else %}
+						<img  src="../static/idee.jpg" class="rounded" alt="image du projet">
+				  	{% endif %} 
+					  {% if session.id_sess == id_prop %}
+					  <form method="POST" action="/ajout_image" enctype=multipart/form-data>
+						  Modifier l'image : <br>
+						  <input type="file" name="image"><br />
+						  <p>taille maximum : 16 Mo</p>
+						  <input class="btn btn-success " type="submit" value="Envoyer"><br />
+						  <input type = "hidden" name = "id_proj" value = {{projet[0][0]}} >
+					  </form>
+					  {% endif %}
+					 
+				</div>
+	<div class="card-body p-4 p-sm-5">
+		<h2>{{ projet[0][1] }}</h2>
+		
+    <h4> Contributeur : <a href="/user/{{prop[0][0]}}">{{ prop[0][1] }} {{ prop[0][2] }}</a> </h4>
+    <p> Descriptif détaillé du projet : {{ projet[0][3] }} </p>
+    <p> Raisons pour lesquelles le projet a été refusé </p>
+
+	
+	{% if appartenance == "membre" %}
+	<p>Ce projet fait partie d'un hub !</p>
+	<p>Il fait partie du hub <a href="/hubs/{{membre[0][0]}}">{{ hub[0][0] }}</a></p>
+
+	{% elif appartenance == "chef" %}
+	<p>Ce projet est le projet responsable d'un hub !</p>
+	<p>Il est responsable du hub <a href="/hubs/{{membre[0][0]}}">{{ hub[0][0] }}</a></p>
+
+	{% elif appartenance == "rien" %}
+
+	{% endif %}
+
+
+	{% if not session.id_sess %}
+	Vous n'êtes pas connecté :      <a href="/user_login">login</a>.
+
+	<br><br>
+	<div id="participation">
+		<form action="../user_login" style="display : inline-block">
+        	<input action="" type="submit" value="Je suis une entreprise ou une collectivité et souhaite spécifier mes besoins"/>
+    	</form>
+	</div>
+
+	{% elif session.id_sess == id_prop %}
+	<p>Vous êtes le propriétaire de ce projet !</p>
+	<br>
+	<form action="/suppression_projet" class="formulaire" method="post">
+		<input type = "hidden" name = "proj_a_suppr" value = {{projet[0][0]}} >
+		<input class="btn btn-success " type="submit" value="Supprimer projet" style="padding:1em"/>
+	</form>
+	<!--<form method="POST" action="/ajout_image" enctype=multipart/form-data>
+		file : <input type="file" name="image"><br />
+		<input type="submit" value="submit"><br />
+		<input type = "hidden" name = "id_proj" value = {{projet[0][0]}} >
+	</form>-->
+
+	<br>
+	{%if liste_proj_a_asso != []%}
+			{%for proj_asso in liste_proj_a_asso%}
+				<p>Le projet <a href="/projets/{{proj_asso[0]}}">{{proj_asso[1] }}</a> souhaite s'associer à votre projet <a href='/projets/{{proj_asso[6][0]}}'>{{proj_asso[6][1]}}</a> !</p>  
+				<p> Message de demande : {{proj_asso[5][0]}} {{proj_asso[5][1]}} : {{proj_asso[4]}}</p>  
+				<p>Voulez vous accepter cette demande d'association ?</p>
+				<form action="/association_accepte" class="formulaire" method="post">
+					<input type = "hidden" name = "id_projet_cible" value = {{proj_asso[6][0]}} />
+					<input type = "hidden" name = "id_projet_demandeur" value = {{proj_asso[0]}} />
+					<input type="submit" value="OUI" />
+				</form>
+				<form action="/association_refuse" class="formulaire" method="post">	
+					<input type = "hidden" name = "id_projet_cible" value = {{proj_asso[6][0]}} />
+					<input type = "hidden" name = "id_projet_demandeur" value = {{proj_asso[0]}} />
+					<input type="submit" value="NON" />
+				</form>
+			{%endfor%}
+		{%endif%}
+
+		<br><br>
+
+		{% if hubs_incomplets != [] %}
+		Il vous faut compléter ce(s) hub(s) pour finaliser leur création : 
+			{% for hub in hubs_incomplets %}
+				<br>
+				Pour le hub : {{hub[0]}}
+				<br>
+				<form action="/ajout_desc_hub" class="formulaire" method="post">
+				<fieldset>
+					<legend> Complétion du hub </legend>
+			
+						<p><i> Les champs précédés d'une * sont obligatoires.</i></p>
+
+						<label for="nom_hub">*Nom du hub</label>
+						<input type="text" id="nom_hub" name="nom_hub" rows="10" cols="50" required>
+						<br><br>
+						<a style="text-decoration: none; color : black"  href="javascript:history.back()">Revenir à ma recherche</a>				<label for="commentaire"> *Description du hub : </label>
+						<input type="text" id="commentaire" name="commentaire" required>
+						<input type="hidden" name = "id_hub" value="{{ hub[0] }}">
+						<input type="hidden" name = "respo" value="{{ hub[2] }}">
+						<input class="favorite styled" type="submit" value="Envoyer" style="padding:1em"/>
+				</fieldset>
+				</form>
+			{% endfor %}
+		{% endif %}
+				
+	<br>
+
+
+	{% else %}
+	<p>Vous n'êtes pas le propriétaire de ce projet !</p>
+	<form action="/form_asso" class="formulaire" method="post">
+		<input type="hidden" name="id_cible" value={{projet[0][0]}}>
+		<input type="submit" name="demande" value = "Je veux m'associer !" style="padding:1em">
+	</form>
+	<br>
+	<br>
+	<div id="interaction">
+		<form action="/interaction" class="formulaire" method="post">
+			<input type = "hidden" name = "id_projet" value={{projet[0][0]}}>
+			<input type = "hidden" name = "interact" value = "pos">
+        	<input action="" type="submit" value="J'aime"/>
+		</form>
+		<form action="/interaction" class="formulaire" method="post">
+			<input type = "hidden" name = "id_projet" value={{projet[0][0]}}>
+			<input type = "hidden" name = "interact" value = "neg">
+			<input action="" type="submit" value="Je n'aime pas"/>
+		</form>	
+		<br>
+		<p> Le nombre de likes est de : {{nb_like}}</p>
+		<p> Le nombre de dislikes est de : {{nb_dis}}</p>
+		<br>
+		<form action="/commentaire" class="formulaire" method="post">
+			<input type="text" id="com" name="com" rows="10" cols="50" required>
+			<input type = "hidden" name = "id_proj" value = {{projet[0][0]}} >
+			<input action="" type="submit" value="Commentaire" />
+
+    	</form>
+		<!--<input action="" type="submit" value="Partager"/>-->
+	</div>
+    <br>
+	<div id="participation">
+		<form action="" style="display : inline-block">
+        	<input action="" type="submit" value="Je participe !"/>
+        	<input action="" type="submit" value="Je suis une entreprise ou une collectivité et souhaite spécifier mes besoins"/>
+    	</form>
+	</div>
+	{% endif %}
+	<br><br><br>
+	
+	</div>
+	{% if lst_commentaires != [] %}
+	<div class="card-footer " style="width: 300px; overflow-x: scroll;">
+	<p>Les commentaires de ce projet :</p>
+	{% for ele in lst_commentaires %}
+		<p>{{ele[2]}} a dit : </p>
+		<div class="messages__item messages__item--visitor"> {{ele[3]}}</div>
+	{% endfor %}
+
+	{% else %}
+
+	<p> Aucun commentaire n'a encore été posté pour ce projet ! </p>
+
+	{% endif %}
+			</div>
+			</div>
+		</div>
+	</div>
+	
+</div>	
+	
+<!-- ON METTRA CA QUAND ON AURA LIE DES PROJETS
+    <p><a href="#">Liste des personnes ayant choisi de participer</a></p>
+    <p> Liste des projets liés : </p>
+    <ul class="linked-projects">
+        <li><a href="#"> Projet 1 </a></li>
+        <li><a href="#"> Projet 2 </a></li>
+        <li><a href="#"> Projet ... </a></li>
+    </ul>
+-->
+
+<script>
+	function myFunction() {
+	  var x = document.getElementById("myTopnav");
+	  if (x.className === "topnav") {
+		x.className += " responsive";
+	  } else {
+		x.className = "topnav";
+	  }
+	}
+</script>
+
+
+</body>
+{% endblock %}

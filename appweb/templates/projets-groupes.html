@@ -1,0 +1,172 @@
+{% extends "layout.html"%}
+
+{% block body %}
+
+<!-- ARGUMENTS : 
+    hubs : liste d'éléments de la forme [(id_hub,'nom_hub',id_proj_respo,'description'),(id_compte nom,prénom,contact)]
+    mots_cles : la liste des mots-clés définie en haut de interface.py 
+  -->
+
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<title> Projets groupés | Participa'TN </title>
+	<link rel="stylesheet" href="static/css/bootstrap.css">
+  <script source="static/js/bootstrap.js"></script>
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+  
+  <link rel="stylesheet" href="../static/css/bootstrap.css">
+  <link rel="stylesheet" href="../static/css/test2.css">
+  <script source="static/css/bootstrap.jc"></script>
+</head>
+<body>
+
+
+  <div class="site-mobile-menu">
+    <div class="site-mobile-menu-header">
+    <div class="site-mobile-menu-close mt-3">
+      <span class="icon-close2 js-menu-toggle"></span>
+    </div>
+    </div>
+    <div class="site-mobile-menu-body"></div>
+  </div>
+  
+  <header class="site-navbar" role="banner" id="myTopnav">
+      <div class="container">
+        <div class="row align-items-center">
+          <div class="col-12 col-md-10 d-none d-xl-block">
+            <nav class="site-navigation position-relative text-right" role="navigation">
+              <ul class="site-menu js-clone-nav mr-auto d-none d-lg-block">
+                <li><a href="/"><span>Accueil</span></a></li>
+                <li class="has-children active">
+                  <a href="/projets-partages"><span>Projets</span></a>
+                  <ul class="dropdown">
+                    <li><a href="/projets-partages"><span>Projets partagés</span></a></li>
+                    <li><a href="/projets-groupes"><span>Projets groupés</span></a></li>
+                  </ul>
+                </li>
+                <li><a href="/proposition-projet"><span>Proposer un projet</span></a></li>
+                <li class="has-children ">	
+                  <a href="/page-user"><span>Mon compte</span></a>
+                  <ul class="dropdown">
+                    <li><a href="/gestion-projet"><span>Gérer mes projets</span></a></li>
+                    <li><a href="/page-user"><span>Mon compte</span></a></li>
+                  </ul>
+                </li>
+                <li><a href="/a-propos"><span>A propos</span></a></li>
+              
+                <!-- <a href="javascript:void(0);" class="icon" onclick="myFunction()" >
+                  <i class="fa fa-bars"></i>
+                </a> -->
+              
+                {% if not session.id_sess %}
+                <li><a href="/user_login"><span>Se connecter</span></a></li>
+                {% else %}
+                <li><a href="/logout"><span>Se déconnecter</span></a></li>
+                {% endif %}
+              </ul>
+            </nav>
+          </div>
+        </div>
+      </div>
+  </header>
+
+    <div>
+    <br>
+    <h1 id="shared-projects" class="text-center"><strong>Projets groupés</strong></h1>
+    <br><br>
+
+  <!-- Coded with love by Mutiullah Samim-->
+
+    <div style="text-align:center">
+
+      <form action="/resultats-recherches_hub" class="formulaire" method="post">
+        
+            <div class="row mb" >
+        
+               <div class="input-group">
+                <div class="form-outline">
+                  <input name="Mot" type="search" id="recherche" class="form-control" placeholder="Rechercher"/>
+                  <label class="form-label" for="recherche"  ></label>
+                </div>
+                <div class="form-outline">
+                  <select type="submit"  class="form-control" id="mc" name="categorie">
+                    <option value="">Mot-clé</option>
+                    {% for mot in mots_cles %}
+                    <option value="{{ mot }}">{{ mot }}</option>
+                    {% endfor %}
+                  </select>
+                  <label class="form-label" for="mc"></label>
+                </div>
+                <button type="submit"   class="btn btn-primary" style="height:37px ; width:37px"> <i class="fas fa-search"></i> </button>
+              </div>
+        
+            </div>
+          </form>
+
+    </div>
+
+
+    <br><br><br>
+    <div class="album  ">
+      <div class="container">
+        
+        <div class="row">
+          {% for ele in hubs %}
+          <div class="col-md-4 " >
+            <div class="card mb-4 box-shadow">
+              <img class="card-img-top" src="../static/salade.jpg" alt="Card image cap">
+              <div class="card-header" >
+                <span class="d-inline-block text-truncate" style="max-width: 100%;">
+                  <a class="card-title" style="font-size:120%; font-weight:bold" href="/hubs/{{ele[0][0]}}">{{ ele[0][1] }}</a>
+                </span>
+              </div>
+              <div class="card-body" style="height: 250px">
+                <div style="height: 180px">
+                  <div class="text">{{ele[0][3]}}</div>
+               </div>
+                <div class="d-flex justify-content-between align-items-center">
+                  <div class="btn-group">
+                    <a class="btn btn-sm btn-outline-secondary"  href="/user/{{ele[1][0]}}"  role="button">{{ele[1][1]}} {{ele[1][2]}}</a>
+                  
+                  </div>
+                  
+                  <!--
+                  
+                  <small class="text-muted"> {{ele[3]}} commentaires </small> -->
+                </div>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+    
+    
+    
+    <footer class="text-muted">
+      <div class="container">
+        <p class="float-right">
+          <a style="text-decoration: none; color : black" href="#">Haut de page</a>
+        </p>
+      </div>
+    </footer>
+    
+    
+    
+
+    <script>
+		function myFunction() {
+		  var x = document.getElementById("myTopnav");
+		  if (x.className === "topnav") {
+			x.className += " responsive";
+		  } else {
+			x.className = "topnav";
+		  }
+		}
+	</script>
+
+
+</body>
+{% endblock %}

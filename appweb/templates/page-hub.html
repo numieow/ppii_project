@@ -1,0 +1,254 @@
+{% extends "layout.html" %}
+
+{% block body %}
+
+<!-- ARGUMENTS :
+	hub : liste de la forme [(id_hub, nom, projet_respo, commentaire)], les infos du hub qu'on regarde
+	proprio : liste de la forme [id_compte, nom, prenom], les infos sur le propriétaire du projet_respo du hub
+	liste_proj_du_hub : de la forme (id_projet, nom, proprietaire, commentaire), liste des projets appartenant au hub
+	nb_like : entier qui contient le nombre de likes sur le hub
+	nb_dis : entier qui contien le nombre de dislikes sur le hub
+	lst_commentaires : de la forme [id_commentaire, id_auteur, nom_auteur prenom_auteur, commentaire], liste des commentaires faits sur ce hub
+-->
+
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<title> Page hub| Participa'TN </title>
+	<link rel="stylesheet" href="../static/css/test2.css">
+   <link rel="stylesheet" href="../static/css/bootstrap.css">
+  
+  <script source="static/css/bootstrap.jc"></script>
+</head>
+<body>
+
+
+    <div class="site-mobile-menu">
+      <div class="site-mobile-menu-header">
+      <div class="site-mobile-menu-close mt-3">
+        <span class="icon-close2 js-menu-toggle"></span>
+      </div>
+      </div>
+      <div class="site-mobile-menu-body"></div>
+    </div>
+    
+    <header class="site-navbar" role="banner" id="myTopnav">
+        <div class="container">
+          <div class="row align-items-center">
+            <div class="col-12 col-md-10 d-none d-xl-block">
+              <nav class="site-navigation position-relative text-right" role="navigation">
+                <ul class="site-menu js-clone-nav mr-auto d-none d-lg-block">
+                  <li><a href="/"><span>Accueil</span></a></li>
+                  <li class="has-children active">
+                    <a href="/projets-partages"><span>Projets</span></a>
+                    <ul class="dropdown">
+                      <li><a href="/projets-partages"><span>Projets partagés</span></a></li>
+                      <li><a href="/projets-groupes"><span>Projets groupés</span></a></li>
+                    </ul>
+                  </li>
+                  <li><a href="/proposition-projet"><span>Proposer un projet</span></a></li>
+                  <li class="has-children">	
+                    <a href="/page-user"><span>Mon compte</span></a>
+                    <ul class="dropdown">
+                      <li><a href="/gestion-projet"><span>Gérer mes projets</span></a></li>
+                      <li><a href="/page-user"><span>Mon compte</span></a></li>
+                    </ul>
+                  </li>
+                  <li><a href="/a-propos"><span>A propos</span></a></li>
+                
+                  <!-- <a href="javascript:void(0);" class="icon" onclick="myFunction()" >
+                    <i class="fa fa-bars"></i>
+                  </a> -->
+                
+                  {% if not session.id_sess %}
+                  <li><a href="/user_login"><span>Se connecter</span></a></li>
+                  {% else %}
+                  <li><a href="/logout"><span>Se déconnecter</span></a></li>
+                  {% endif %}
+                </ul>
+              </nav>
+            </div>
+          </div>
+        </div>
+    </header>
+
+	<div class="container">
+		<div class="row">
+		  <div class="col-lg-50 col-xl-40 mx-auto">
+			<div class="card flex-row my-5 border-0 shadow rounded-3 overflow-hidden card2" style =" height: 800px ;">
+				<div class="card-header-left" style="width: 360 px;">
+					{% if os.path.exists("static/images/uploads/"+hub[0]|string+".png") %}
+						<img class="card-img imgt " src="../static/images/uploads/{{hub[0]}}.png" alt="image personalisée du hub">
+					{% else %}
+						<div class="card-img-top ">
+						<!-- Background image for card set in CSS! -->
+			  			</div>
+				  	{% endif %}
+				  <table>
+				  	<tbody>
+					{% set i=0%}
+				  	{% for ele in liste_proj_du_hub[:4] %}
+					  {%set i=i+1%}
+					  {%if i%2==0%}
+					  <tr>
+						{%endif%}
+							<td>
+				  	{% if os.path.exists("static/images/uploads/"+ele[0]|string+".png") %}
+				  	<img class="card-img imgt_hub" style="width : 180px" src="../static/images/uploads/{{ele[0]}}.png" alt="image personalisée du projet">
+				  	{% else %}
+				  	<img class="card-img imgt_hub" style="width : 180px" src="../static/idee.jpg" alt="image du projet">
+				  {% endif %}
+					</td>
+				  {%if i%2==0%}
+					  </tr>
+					{%endif%}
+					
+				{% endfor %}
+
+					</tbody>
+				</table>
+				</div>
+			  <div class="card-body p-4 p-sm-5 test_contenu">
+			    <h1>{{ hub[1] }}</h2>
+			    <h4> Contributeur : <a href="/user/{{proprio[0]}}">{{ proprio[1] }} {{ proprio[2] }}</a> </h4>
+			    <p> Descriptif détaillé du hub : {{ hub[3] }} </p>
+				<p> Les projets membre de ce hub sont : </p>
+
+				{% for ele in liste_proj_du_hub %}
+					<p>
+						<a href="/projets/{{ele[0]}}">{{ele[1]}}</a>
+					</p>
+				{% endfor %}
+				
+				
+				{% if not session.id_sess %}
+				Vous n'êtes pas connecté :      <a href="/user_login">login</a>.
+				
+				{% elif session.id_sess == proprio[0] %}
+				<p>Vous êtes le propriétaire de ce hub !</p>
+				<br>
+				<form action="/form_asso" class="formulaire" method="post">   
+					<input type="hidden" name="id_cible" value={{hub[0]}}>
+					<input type="submit" name="demande" value = "Je veux m'associer !" style="padding:1em">
+				</form>
+				<br>
+				<br>
+				<div id="interaction">
+						<form action="/interaction_hub" class="formulaire" method="post">
+						<input type = "hidden" name = "id_hub" value={{hub[0]}}>
+						<input type = "hidden" name = "interact" value = "pos">
+						<input action="" type="submit" value="J'aime"/>
+						</form>
+					<form action="/interaction_hub" class="formulaire" method="post">
+						<input type = "hidden" name = "id_hub" value={{hub[0]}}>
+						<input type = "hidden" name = "interact" value = "neg">
+						<input action="" type="submit" value="Je n'aime pas"/>
+					</form>	
+					<br>
+					<p> Le nombre de likes est de : {{nb_like}}</p>
+					<p> Le nombre de dislikes est de : {{nb_dis}}</p>
+					<form action="/commentaire_hub" class="formulaire" method="post">
+						<input type="text" id="com" name="com" rows="10" cols="50" required>
+						<input type = "hidden" name = "id_hub" value = {{hub[0]}} >
+						<input action="" type="submit" value="Commentaire" />
+			    	</form>
+					<!--
+						<input action="" type="submit" value="Partager"/>
+					-->
+
+
+				</div>
+			    <br>
+				<!--
+					<div id="participation">
+					<form action="" style="display : inline-block">
+			        	<input action="" type="submit" value="Je participe !"/>
+			        	<input action="" type="submit" value="Je suis une entreprise ou une collectivité et souhaite spécifier mes besoins"/>
+			    	</form>
+				</div>
+				-->
+				
+			
+			
+				{% else %}
+				<p>Vous n'êtes pas le propriétaire de ce hub !</p>	
+				<br>
+				<form action="/form_asso" class="formulaire" method="post">   
+					<input type="hidden" name="id_cible" value={{hub[0]}}>
+					<input type="submit" name="demande" value = "Je veux m'associer !" style="padding:1em">
+				</form>
+				<br>
+				<br>
+				<div id="interaction">
+						<form action="/interaction_hub" class="formulaire" method="post">
+							<input type = "hidden" name = "id_hub" value={{hub[0]}}>
+							<input type = "hidden" name = "interact" value = "pos">
+							<input action="" type="submit" value="J'aime"/>
+						</form>
+						<form action="/interaction_hub" class="formulaire" method="post">
+							<input type = "hidden" name = "id_hub" value={{hub[0]}}>
+							<input type = "hidden" name = "interact" value = "neg">
+							<input action="" type="submit" value="Je n'aime pas"/>
+						</form>	
+						<br>
+						<p> Le nombre de likes est de : {{nb_like}}</p>
+						<p> Le nombre de dislikes est de : {{nb_dis}}</p>	
+						<form action="/commentaire_hub" class="formulaire" method="post">
+							<input type="text" id="com" name="com" rows="10" cols="50" required>
+							<input type = "hidden" name = "id_hub" value = {{hub[0]}} >
+							<input action="" type="submit" value="Commentaire" />
+						</form>
+			            <input action="" type="submit" value="Partager"/>
+			    	</form>
+				</div>
+			    <br>
+				<!--
+					<div id="participation">
+					<form action="" style="display : inline-block">
+			        	<input action="" type="submit" value="Je participe !"/>
+			        	<input action="" type="submit" value="Je suis une entreprise ou une collectivité et souhaite spécifier mes besoins"/>
+			    	</form>
+				</div>
+				-->
+				{% endif %}
+
+				<br>
+
+				
+			</div>
+			{% if lst_commentaires != [] %}
+			<div class="card-footer " style="width: 300px; overflow-x: scroll;">
+			   
+			 
+				   <p>Les commentaires de ce hub :</p>
+				   {% for ele in lst_commentaires %}
+					   <p>{{ele[2]}} a dit : </p>
+					   <div class="messages__item messages__item--operator"> {{ele[3]}}</div>
+				   {% endfor %}
+   
+				   {% else %}
+   
+				   <p> Aucun commentaire n'a encore été posté pour ce hub ! </p>
+   
+				   {% endif %}
+		   </div>
+			</div>
+		</div>
+      </div>
+    </div>	
+
+
+<script>
+	function myFunction() {
+	  var x = document.getElementById("myTopnav");
+	  if (x.className === "topnav") {
+		x.className += " responsive";
+	  } else {
+		x.className = "topnav";
+	  }
+	}
+</script>
+
+
+</body>
+{% endblock %}

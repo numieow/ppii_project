@@ -1,0 +1,175 @@
+<!--
+    nom_projet= Le nom du projet proposé 
+    code_projet= code de refus du projet proposé
+    description_sans_correction= description tapée avant correction par C
+    description_corrigée = description proposé corrigée, a confirmer.
+    categorie = mots-clés proposés pour ce projet.
+
+-->
+
+
+{% extends "layout.html"%}
+
+{% block body %}
+
+<!-- ARGUMENTS : 
+    mots_cles : liste des mots-clés définis en haut de interface.py
+  -->
+
+<head>
+  
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<title> Proposition Projet | Participa'TN </title>
+  <link rel="stylesheet" href="static/css/bootstrap.css">
+  <link rel="stylesheet" href="static/css/test2.css">
+  <script source="static/css/bootstrap.jc"></script>
+
+  <!--Module de multiple selection vient de : https://github.com/jiestrada/multiple-selected-->
+  <link rel="stylesheet" type="text/css" href="../static/css/multiple-select.css" />
+</head>
+<body>
+
+
+  <div class="site-mobile-menu">
+    <div class="site-mobile-menu-header">
+    <div class="site-mobile-menu-close mt-3">
+      <span class="icon-close2 js-menu-toggle"></span>
+    </div>
+    </div>
+    <div class="site-mobile-menu-body"></div>
+  </div>
+  
+  <header class="site-navbar" role="banner" id="myTopnav">
+      <div class="container">
+        <div class="row align-items-center">
+          <div class="col-12 col-md-10 d-none d-xl-block">
+            <nav class="site-navigation position-relative text-right" role="navigation">
+              <ul class="site-menu js-clone-nav mr-auto d-none d-lg-block">
+                <li><a href="/"><span>Accueil</span></a></li>
+                <li class="has-children">
+                  <a href="/projets-partages"><span>Projets</span></a>
+                  <ul class="dropdown">
+                    <li><a href="/projets-partages"><span>Projets partagés</span></a></li>
+                    <li><a href="/projets-groupes"><span>Projets groupés</span></a></li>
+                  </ul>
+                </li>
+                <li class="active"><a href="/proposition-projet"><span>Proposer un projet</span></a></li>
+                <li class="has-children">	
+                  <a href="/page-user"><span>Mon compte</span></a>
+                  <ul class="dropdown">
+                    <li><a href="/gestion-projet"><span>Gérer mes projets</span></a></li>
+                    <li><a href="/page-user"><span>Mon compte</span></a></li>
+                  </ul>
+                </li>
+                <li><a href="/a-propos"><span>A propos</span></a></li>
+              
+                <!-- <a href="javascript:void(0);" class="icon" onclick="myFunction()" >
+                  <i class="fa fa-bars"></i>
+                </a> -->
+              
+                {% if not session.id_sess %}
+                <li><a href="/user_login"><span>Se connecter</span></a></li>
+                {% else %}
+                <li><a href="/logout"><span>Se déconnecter</span></a></li>
+                {% endif %}
+              </ul>
+            </nav>
+          </div>
+        </div>
+      </div>
+  </header>
+
+<div style="background: white;width: 60%; margin-left: 20% ;border-radius : 40px; margin-top: 4%">
+  <br>
+<br>
+<div class="bord" style="margin-top: -5%">
+
+  <div>
+    <br> 
+    {%if compare == "corrige" %}
+    <i style = "color:grey"><u>La description a été corrigé</u> !</i> 
+    {% else %}
+    <i style = "color:grey"><u>La description n'a pas été modifiée</u> !</i>
+    {% endif %}
+    <br>
+    <br>
+  </div>
+
+  <div style="text-align:center; margin-left:auto; margin-right:auto">
+
+    <u style="color:green">Titre</u> : {{nom_projet}}
+    <br>
+    <u style="color:green">Description</u> : {{description_corrigée}}
+    <br>
+    <u style="color:green">Description initiale</u> : {{description_sans_correction}}
+    <br>
+    <u style="color:green">code</u> : {{code_projet}}
+    <br>
+    <u style="color:green">Mots-clés</u> : {{categorie}}
+    <br><br><br> 
+  
+    <form action="/ajout" class="formulaire" method="post" id="propose-projet"> 
+           
+      <h3 style = "color:green"> <strong><u>{{nom_projet}}</u></strong> </h3>
+      <br>
+      <div class="form-outline mb-3">
+          <label class="form-label" for="nom_projet">Confirmez le nom :</label>
+<!--            <textarea class="form-control" id="nom_projet" name="nom_projet" rows=2 cols=15 > {{nom_projet}} </textarea> -->
+          <input type="text" id="nom_projet" class="form-control" name="nom_projet" value = "{{nom_projet}}" style = "text-align:center"/>
+      </div>
+
+      <div class="form-outline mb-3">
+          <label class="form-label" for="code_projet">Confirmez le code :</label>
+<!--            <textarea class="form-control" id="code_projet" name="code_projet" rows=2 cols=15 > {{code_projet}} </textarea> -->
+          <input type="text" id="code_projet" class="form-control" name="code_projet" value = "{{code_projet}}" style = "text-align:center"/>
+
+      </div>
+
+      <div class="form-outline mb-3">
+          <label class="form-label" for="description">Confirmez la description :</label>
+          <textarea class="form-control" id="description" name="projet_desc" rows=8 cols=70 > {{description_corrigée}} </textarea>
+      </div>
+
+        <div> Confirmez les mots clés : 
+            <br>
+            <input type="checkbox" id="cat" name="cat" checked>
+            <label for="cat">{{categorie}}</label>
+        </div>
+    
+        <br>
+        <button type="submit" class="btn btn-success btn-block mb-2">Confirmer</button> 
+
+    </form>
+  </div>
+
+</div>
+<br>
+</div>
+
+    <script>
+		function myFunction() {
+		  var x = document.getElementById("myTopnav");
+		  if (x.className === "topnav") {
+			x.className += " responsive";
+		  } else {
+			x.className = "topnav";
+		  }
+		}
+	</script>
+
+<script src="../static/js/multiple-select.js"></script>
+<script>
+  $(function() {
+      $('#ms').change(function() {
+          console.log($(this).val());
+      }).multipleSelect({
+          width: '100%',
+          filter: true
+      });
+  });
+  </script>
+ 
+
+</body>
+{% endblock %}

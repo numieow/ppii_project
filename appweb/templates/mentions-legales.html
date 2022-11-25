@@ -1,0 +1,107 @@
+{% extends "layout.html"%}
+
+{% block body %}
+
+<!-- ARGUMENTS : 
+    nb_projets : entier qui correspond au nombre de projets dans la base de données
+	nb_hubs : entier qui correspond au nombre de hubs dans la base de données
+	nb_comptes : entier qui correspond au nombre de comptes dans la base de données
+  -->
+
+  <head>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<title> Mentions légales | Participa'TN </title>
+  <link rel="stylesheet" href="static/css/bootstrap.css">
+  <link rel="stylesheet" href="static/css/test2.css">
+  <script source="static/css/bootstrap.jc"></script>
+</head>
+<body>
+
+
+    <div class="site-mobile-menu">
+      <div class="site-mobile-menu-header">
+      <div class="site-mobile-menu-close mt-3">
+        <span class="icon-close2 js-menu-toggle"></span>
+      </div>
+      </div>
+      <div class="site-mobile-menu-body"></div>
+    </div>
+    
+    <header class="site-navbar" role="banner" id="myTopnav">
+        <div class="container">
+          <div class="row align-items-center">
+            <div class="col-12 col-md-10 d-none d-xl-block">
+              <nav class="site-navigation position-relative text-right" role="navigation">
+                <ul class="site-menu js-clone-nav mr-auto d-none d-lg-block">
+                  <li><a href="/"><span>Accueil</span></a></li>
+                  <li class="has-children">
+                    <a href="/projets-partages"><span>Projets</span></a>
+                    <ul class="dropdown">
+                      <li><a href="/projets-partages"><span>Projets partagés</span></a></li>
+                      <li><a href="/projets-groupes"><span>Projets groupés</span></a></li>
+                    </ul>
+                  </li>
+                  <li><a href="/proposition-projet"><span>Proposer un projet</span></a></li>
+                  <li class="has-children">	
+                    <a href="/page-user"><span>Mon compte</span></a>
+                    <ul class="dropdown">
+                      <li><a href="/gestion-projet"><span>Gérer mes projets</span></a></li>
+                      <li><a href="/page-user"><span>Mon compte</span></a></li>
+                    </ul>
+                  </li>
+                  <li class="active"><a href="/a-propos"><span>A propos</span></a></li>
+                
+                  <!-- <a href="javascript:void(0);" class="icon" onclick="myFunction()" >
+                    <i class="fa fa-bars"></i>
+                  </a> -->
+                
+                  {% if not session.id_sess %}
+                  <li><a href="/user_login"><span>Se connecter</span></a></li>
+                  {% else %}
+                  <li><a href="/logout"><span>Se déconnecter</span></a></li>
+                  {% endif %}
+                </ul>
+              </nav>
+            </div>
+          </div>
+        </div>
+    </header>
+	<br>
+	<br>
+	<br>
+    <div  style="background: white;width: 80%; margin-left: 10% ;border-radius : 40px">
+        <br>
+		<br>
+	<div class="bord">
+    <h1 class="text-center"><strong> Mentions légales </strong></h1>	
+       <!-- cf. mentions légales de participez.nancy.fr--> 
+    <br><br>
+    <h3> Informations légales </h3>
+    <p>Les informations présentées sur cette plateforme sont indiquées à titre indicatif. Elles ne prétendent pas à l'exhaustivité et les auteurs du site ne peuvent être tenus responsables de la modification de dispositions administratives ou juridiques survenant après la publication.</p>
+    <p>Les auteurs ne peuvent être tenus responsables des informations diffusées et de l'utilisation qui peut en être faite. Ils dégagent également toute responsabilité concernant les liens créés par d'autres sites vers ce site. L'existence de ces liens ne prouvent en aucun cas que les auteurs cautionnent ces sites ou en approuvent le contenu.</p>
+    <br><br>
+    <h3> Droits d'utilisation et de reproduction </h3>
+    <p> Le droit de reproduction et/ou droit de représentation des données de ce site est exclusivement destiné à un usage privé et/ou aux seules fins de consultation personnelle et privée des utilisateurs.</p>
+    <p> Toute autre utilisation est strictement interdite et susceptible de poursuites, conformément aux dispositions du Code de la Propriété Intellectuelle français, des règlements nationaux et des conventions internationales en vigueur.</p>
+    <br><br>
+    <h3> Droit applicable </h3>
+    <p> De convention expresse entre les parties, le droit applicable aux présentes et à leurs conséquences est exclusivement le Droit Français, tant en ce qui concerne les règles de procédure que celles du fond.</p>
+
+
+    </div>
+	<script>
+		function myFunction() {
+		  var x = document.getElementById("myTopnav");
+		  if (x.className === "topnav") {
+			x.className += " responsive";
+		  } else {
+			x.className = "topnav";
+		  }
+		}
+	</script>
+
+	<br><br><br>
+
+</body>
+{% endblock %}

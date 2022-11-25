@@ -1,0 +1,149 @@
+{% extends "layout.html"%}
+
+{% block body %}
+
+<!-- ARGUMENTS : 
+    
+  -->
+
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title> Accueil | Participa'TN </title>
+    <link rel="stylesheet" href="static/css/bootstrap.css">
+    <link rel="stylesheet" href="static/css/test2.css">
+    <script source="static/css/bootstrap.jc"></script>
+  </head>
+  <body>
+  
+  
+      <div class="site-mobile-menu">
+        <div class="site-mobile-menu-header">
+        <div class="site-mobile-menu-close mt-3">
+          <span class="icon-close2 js-menu-toggle"></span>
+        </div>
+        </div>
+        <div class="site-mobile-menu-body"></div>
+      </div>
+      
+      <header class="site-navbar" role="banner" id="myTopnav">
+          <div class="container">
+            <div class="row align-items-center">
+              <div class="col-12 col-md-10 d-none d-xl-block">
+                <nav class="site-navigation position-relative text-right" role="navigation">
+                  <ul class="site-menu js-clone-nav mr-auto d-none d-lg-block">
+                    <li class="active"><a href="/"><span>Accueil</span></a></li>
+                    <li class="has-children">
+                      <a href="/projets-partages"><span>Projets</span></a>
+                      <ul class="dropdown">
+                        <li><a href="/projets-partages"><span>Projets partagés</span></a></li>
+                        <li><a href="/projets-groupes"><span>Projets groupés</span></a></li>
+                      </ul>
+                    </li>
+                    <li><a href="/proposition-projet"><span>Proposer un projet</span></a></li>
+                    <li class="has-children">	
+                      <a href="/page-user"><span>Mon compte</span></a>
+                      <ul class="dropdown">
+                        <li><a href="/gestion-projet"><span>Gérer mes projets</span></a></li>
+                        <li><a href="/page-user"><span>Mon compte</span></a></li>
+                      </ul>
+                    </li>
+                    <li><a href="/a-propos"><span>A propos</span></a></li>
+                  
+                    <!-- <a href="javascript:void(0);" class="icon" onclick="myFunction()" >
+                      <i class="fa fa-bars"></i>
+                    </a> -->
+                  
+                    {% if not session.id_sess %}
+                    <li><a href="/user_login"><span>Se connecter</span></a></li>
+                    {% else %}
+                    <li><a href="/logout"><span>Se déconnecter</span></a></li>
+                    {% endif %}
+                  </ul>
+                </nav>
+              </div>
+            </div>
+          </div>
+      </header>
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-50 col-xl-40 mx-auto"> 
+            <div class="card flex-row my-5 border-0 shadow rounded-20 overflow-hidden card2" >
+              <div class="card-img-left d-none d-md-flex">
+                <!-- L'image est dans le css -->
+              </div>
+              <div class="card-body p-4 p-sm-5">
+               <h1 style="color:green" class="titre card-title text-center mb-6 fw-light fs-5 ">Participa'TN</h1>
+                  
+                  {% block y %}
+    
+                    <div class="form-floating mb-4 text-center fw-light fs-5">
+                      {% if session.id_sess %}
+                      Connecté en tant que  <strong>{{ session.id_sess }}</strong>.
+                      <br>
+                      <a href="/page-user">Voir mon compte.</a>
+                      <br><br>
+                    <form action="/logout" class="formulaire" onclick="confirm('Êtes-vous sûr de vouloir vous déconnecter ?')">
+                      <div class="col-12">
+                        <button type="submit" class="btn btn-success btn-block mb-5">Se déconnecter</button>
+                      </div>
+                    </form>
+                      
+                    {% else %}
+                      Vous n'êtes pas connecté.     <a href="/user_login">login</a>.
+                    {% endif %}
+    
+                    {% endblock %} 
+                    </div>
+      
+                    <div id="description">
+                      <br><br>
+                  <h2><strong> Vitrine de projets</strong> </h2>
+                  <p id="mission" class="test"> Pour mettre en relation des propriétaires de projets </p>
+                  <br>
+                  <p id="main_descp"> Entrez les caractéristiques de votre projet et trouvez des partenaires pour le montrer aux métropoles ou autres organisations.</p>
+                      <br><br>
+                  </div>
+    
+    
+                  <div class="row mb w-25">
+                      <div class="col">
+                          <form action="/projets-partages" style="display:inline-block">
+                          <button type="submit" class="btn btn-success btn-block mb-2">Accéder aux projets partagés</button>
+                          </form>
+                      </div>
+                        <div class="col">
+                          <form action="projets-groupes" style="display:inline-block">
+                          <button type="submit" class="btn btn-success btn-block mb-2">Accéder aux projets groupés</button>
+                          </form>
+                      </div>
+                      <div class="col">
+                          <form action="proposition-projet" style="display:inline-block" >
+                          <button type="submit" class="btn btn-success btn-block mb-2">Proposer un projet</button>
+                          </form>
+                      </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          </div>
+          </div>
+          </div>
+        </div>
+
+    <script>
+		function myFunction() {
+		  var x = document.getElementById("myTopnav");
+		  if (x.className === "topnav") {
+			x.className += " responsive";
+		  } else {
+			x.className = "topnav";
+		  }
+		}
+	</script>
+ 
+
+
+</body>
+{% endblock %}

@@ -1,0 +1,20 @@
+Bonjour, je suis SALAD § hello / salut / bonjour / coucou § 
+Au revoir ! § bye / aurevoir / a+ § 
+Au revoir! § au / revoir § au / revoir
+Je vais bien merci § comment / ça va / vas tu / allez vous / allez-vous  § comment
+De rien § merci / remercie § 
+
+Pour proposer un projet il suffit de se connecter à un compte puis de cliquer sur l'onglet "Proposer un projet" et de remplir les champs demandés. § comment / proposer  / projet / nouveau § 
+Pour vous connecter a votre compte, cliquez <a href="/user_login">ici</a> § connecter / compte § connecter
+<div class=""> Vous souhaitez accéder aux projets seuls : <form action="/projets-partages" style="inline-block"> <button type="submit" class="btn btn-success btn-block mb-2">projets partagés</button> </form> </div> Vous souhaitez accéder aux groupes de projets  : <form action="/projets-groupes" style="inline-block"> <button type="submit" class="btn btn-success btn-block mb-2">projets groupés</button> </form> § projets / partageés / liste / projet § projet
+
+
+<img src="../static/images/SALAD_wink.PNG"> § wink § wink
+42 § pourquoi / réponse / vie / sens § vie
+TN <3 § meilleure / ecole / ingé / ingénieur / informatique § meilleure
+
+Le code de refus vous sera communiqué par la mairie afin que vous puissiez rentrer votre projet. § comment / où / refus / code / trouver §
+
+Pour s'associer avec un autre projet, il suffit de cliquer sur le bouton "Je veux m'associer !" sur la page dudit projet et de remplir la demande d'association. § comment / hub / créer / création / associer / association / s'associer / projet §
+
+Les informations des autres membres du projet vous seront transmises lors de la création du hub. § comment / contacter / contact / projet / membre / membres / hub §

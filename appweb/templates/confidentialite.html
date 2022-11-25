@@ -1,0 +1,126 @@
+{% extends "layout.html"%}
+
+{% block body %}
+
+<!-- ARGUMENTS : 
+    nb_projets : entier qui correspond au nombre de projets dans la base de données
+	nb_hubs : entier qui correspond au nombre de hubs dans la base de données
+	nb_comptes : entier qui correspond au nombre de comptes dans la base de données
+  -->
+
+  <head>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<title> Confidentialité | Participa'TN </title>
+  <link rel="stylesheet" href="static/css/bootstrap.css">
+  <link rel="stylesheet" href="static/css/test2.css">
+  <script source="static/css/bootstrap.jc"></script>
+</head>
+<body>
+
+
+    <div class="site-mobile-menu">
+      <div class="site-mobile-menu-header">
+      <div class="site-mobile-menu-close mt-3">
+        <span class="icon-close2 js-menu-toggle"></span>
+      </div>
+      </div>
+      <div class="site-mobile-menu-body"></div>
+    </div>
+    
+    <header class="site-navbar" role="banner" id="myTopnav">
+        <div class="container">
+          <div class="row align-items-center">
+            <div class="col-12 col-md-10 d-none d-xl-block">
+              <nav class="site-navigation position-relative text-right" role="navigation">
+                <ul class="site-menu js-clone-nav mr-auto d-none d-lg-block">
+                  <li><a href="/"><span>Accueil</span></a></li>
+                  <li class="has-children">
+                    <a href="/projets-partages"><span>Projets</span></a>
+                    <ul class="dropdown">
+                      <li><a href="/projets-partages"><span>Projets partagés</span></a></li>
+                      <li><a href="/projets-groupes"><span>Projets groupés</span></a></li>
+                    </ul>
+                  </li>
+                  <li><a href="/proposition-projet"><span>Proposer un projet</span></a></li>
+                  <li class="has-children">	
+                    <a href="/page-user"><span>Mon compte</span></a>
+                    <ul class="dropdown">
+                      <li><a href="/gestion-projet"><span>Gérer mes projets</span></a></li>
+                      <li><a href="/page-user"><span>Mon compte</span></a></li>
+                    </ul>
+                  </li>
+                  <li class="active"><a href="/a-propos"><span>A propos</span></a></li>
+                
+                  <!-- <a href="javascript:void(0);" class="icon" onclick="myFunction()" >
+                    <i class="fa fa-bars"></i>
+                  </a> -->
+                
+                  {% if not session.id_sess %}
+                  <li><a href="/user_login"><span>Se connecter</span></a></li>
+                  {% else %}
+                  <li><a href="/logout"><span>Se déconnecter</span></a></li>
+                  {% endif %}
+                </ul>
+              </nav>
+            </div>
+          </div>
+        </div>
+    </header>
+	<br>
+	<br>
+	<br>
+    <div  style="background: white;width: 80%; margin-left: 10% ;border-radius : 40px">
+        <br>
+		<br>
+	<div class="bord">
+    <h1 class="text-center"><strong> Confidentialité </strong></h1>	
+       <!-- cf. mentions légales de participez.nancy.fr--> 
+    <br><br>
+    <p>Ce site agit conformément aux dispositions du Règlement Général sur la Protection des Données (UE) 2016/679 (RGPD).</p>
+    <p> En utilisant ce site, vous marquez votre accord formel avec la façon dont il collecte et traite les données à caractère personnel, comme décrit ci-dessous.</p>
+
+    <br>
+    <strong>1. Visite du site web et enregistrement</strong>
+    <br>
+    <p>Même s'il est possible de consulter certaines informations sur ce site sans avoir à communiquer de données personnelles, il est obligatoire de s'enregistrer si vous voulez proposer ou interagir avec des projets. Vous n'êtes pas dans l'obligation de communiquer ces données à caractère personnel. Si vous ne le faites pas, certaines fonctionnalités du site seront indisponibles.</p>
+    <p>Pendant l'enregistrement, vous devez indiquer vos nom, prénom et adresse mail en vue de votre identification en tant qu'utilisateur de la plateforme. </p>
+    <p>Pour toute proposition de projet, vous devez vous identifier.</p>
+    <p>Les données relatives aux activités des utilisateurs de la plateforme seront enregistrées.</p>
+    <br>
+    <strong>2. Traitement de données à caractère personnel</strong>
+    <br>
+    <p>Comme mentionné ci-dessus, des données à caractère personnel vous concernant sont collectées.</p>
+
+    <p>Vous pouvez visiter certaines parties du site sans donner de données ; dans ce cas, aucune donnée ne sera traitées. Le traitement des données pendant l'enregistrement est justifié sur la base du consentement qui vous sera demandé. Ces données seront traitées en vue de votre identification afin que vous puissiez proposer votre projet sur notre plateforme. </p>
+
+    <p>Après l'enregistrement, vous pouvez proposer votre projet, interagir avec les projets des autres ou contacter d'autres utilisateurs. </p>
+    <p>En donnant votre accord explicite et préalable, vous marquez expressément votre accord avec le fait que l'équipe projet est également autorisée à traiter ces données aux fins précitées.</p>
+    <br>
+    <strong>3. Droit d'accès, d'adaptation et de rectification - effacement de données et limitation du traitement</strong>
+    <br>
+    <p>Les données sont conservées pour la durée nécessaire à la réalisation des finalités du traitement et sont destinées à l'équipe projet. </p>
+    <strong>Traitement des données à caractère personnel</strong>
+    <p>Les informations personnelles que vous communiquez ne sont transmises à aucun tiers ni à titre onéreux ni à titre gratuit. Conformément à la loi n°78-17 du 6 janvier 1978 modifiée en 2004 et au Règlement Général sur la Protection des Données (RGPD) 2016/679 du Parlement Européen et du Conseil du 27 avril 2016, vous bénéficiez d'un droit d'accès, de rectification ou de suppression des informations qui vous concernent.</p>
+    <p>Dans certains cas, suite à la modification, rectification et/ou effacement des données, vous ne pourrez alors plus participer à la plateforme.</p>
+    <strong>4. Modifications</strong>
+    <br>
+    <p>L'équipe se réserve le droit de modifier la déclaration de confidentialité. Votre accord vous sera alors à nouveau demandé. La présente déclaration de confidentialité a été modifiée et révisée pour la dernière fois le 6 juin 2022.</p>
+
+    </div>
+	<script>
+		function myFunction() {
+		  var x = document.getElementById("myTopnav");
+		  if (x.className === "topnav") {
+			x.className += " responsive";
+		  } else {
+			x.className = "topnav";
+		  }
+		}
+	</script>
+
+	<br><br><br>
+
+
+</body>
+{% endblock %}

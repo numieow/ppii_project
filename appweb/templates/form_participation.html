@@ -1,0 +1,131 @@
+{% extends "layout.html"%}
+
+{% block body %}
+
+<!-- ARGUMENTS : 
+    err : message d'erreur au cas-où la personne arrive à envoyer une demande avec un projet qui ne lui appartient pas, OPTIONNEL
+    id_cible : l'id_projet du projet ciblé par la demande
+    nom_cible : nom du projet ciblé par la demande
+    mes_projets : liste d'élements de la forme (id_projet, nom), les projets qui appartiennent à l'utilisateur connecté
+  -->
+
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<title> Projets partagés| Participa'TN </title>
+  <link rel="stylesheet" href="static/css/bootstrap.css">
+  <link rel="stylesheet" href="static/css/test2.css">
+  <script source="static/css/bootstrap.jc"></script>
+
+</head>
+
+<body>
+  <div class="site-mobile-menu">
+    <div class="site-mobile-menu-header">
+    <div class="site-mobile-menu-close mt-3">
+      <span class="icon-close2 js-menu-toggle"></span>
+    </div>
+    </div>
+    <div class="site-mobile-menu-body"></div>
+  </div>
+  
+  <header class="site-navbar" role="banner" id="myTopnav">
+      <div class="container">
+        <div class="row align-items-center">
+          <div class="col-12 col-md-10 d-none d-xl-block">
+            <nav class="site-navigation position-relative text-right" role="navigation">
+              <ul class="site-menu js-clone-nav mr-auto d-none d-lg-block">
+                <li><a href="/"><span>Accueil</span></a></li>
+                <li class="has-children">
+                  <a href="/projets-partages"><span>Projets</span></a>
+                  <ul class="dropdown">
+                    <li class="active"><a href="/projets-partages"><span>Projets partagés</span></a></li>
+                    <li><a href="/projets-groupes"><span>Projets groupés</span></a></li>
+                  </ul>
+                </li>
+                <li><a href="/proposition-projet"><span>Proposer un projet</span></a></li>
+                <li class="has-children">	
+                  <a href="/page-user"><span>Mon compte</span></a>
+                  <ul class="dropdown">
+                    <li><a href="/gestion-projet"><span>Gérer mes projets</span></a></li>
+                    <li><a href="/page-user"><span>Mon compte</span></a></li>
+                  </ul>
+                </li>
+                <li><a href="/a-propos"><span>A propos</span></a></li>
+              
+                <!-- <a href="javascript:void(0);" class="icon" onclick="myFunction()" >
+                  <i class="fa fa-bars"></i>
+                </a> -->
+              
+                {% if not session.id_sess %}
+                <li><a href="/user_login"><span>Se connecter</span></a></li>
+                {% else %}
+                <li><a href="/logout"><span>Se déconnecter</span></a></li>
+                {% endif %}
+              </ul>
+            </nav>
+          </div>
+        </div>
+      </div>
+  </header>
+
+
+    <div align="center">
+        <br>
+        <form action="/projets/form_participation" class="formulaire" method="post">
+
+            <fieldset>
+                <legend><strong><u> Vous voulez vous associer au projet : </u></strong> {{ nom_cible }}</legend>
+                <br>
+                <legend> Votre demande: </legend>
+
+                    <p><i><h7></h6> Les champs précédés d'une <b style="color: red;">*</b> sont obligatoires.</h6></i></p> 
+
+            {% if err %}
+            <p>{{ err }}</p>
+            {% endif %}
+            
+            <!-- id projet input -->
+            <div class="form-outline mb-3">
+              <!--<input id="identifiant" placeholder="Nom de votre projet" class="form-control" name="id_demande"/> -->
+
+              <!--Version de Maxime-->
+              <select class="form-control" name="id_demande" required>
+                <option disabled selected value = "">Nom</option>
+                {% for projet in mes_projets %}
+                <option value="{{ projet[0] }}">{{ projet[1] }}</option>
+                {% endfor %}
+              </select>
+              <!--Version de Maxime-->
+              
+              <label class="form-label" for="identifiant"><b style="color: red;">*</b>Nom de votre projet</label>
+            </div>
+
+            <div class="form-outline mb-3">
+                <input type="text" id="motivation" placeholder="Motivation de la demande" class="form-control" name="projet_desc"/>
+                <label class="form-label" for="motivation"><b style="color: red;">*</b>Motivation de la demande</label>
+              </div>
+          
+              <input type="hidden" name="id_cible" value="{{ id_cible }}">
+              <input type="hidden" name="nom_cible" value="{{ nom_cible }}">              
+
+            <!-- Submit button -->
+            <button type="submit" class="btn btn-success btn-block mb-3">Envoyer</button>
+        </fieldset>  
+        </form>
+    </div>
+    
+        <script>
+            function myFunction() {
+              var x = document.getElementById("myTopnav");
+              if (x.className === "topnav") {
+                x.className += " responsive";
+              } else {
+                x.className = "topnav";
+              }
+            }
+        </script>
+
+    
+    </body>
+    {% endblock %}

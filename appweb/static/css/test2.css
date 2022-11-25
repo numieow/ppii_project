@@ -1,0 +1,34 @@
+body {
+  background: rgb(248, 248, 67);
+  background: linear-gradient(to right, rgb(172, 228, 61), rgb(248, 248, 67));
+}
+
+.card-img-left {
+  width: 45%;
+  background: scroll center url('https://www.tourisme-verdun.com/media/thumbs/slide5_1908x826.jpg');
+  background-size: cover;
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+
+}
+
+
+.titre {
+  font-size: 70px;
+}
+
+.test {
+  color: grey;
+  font-size: 12px;
+  font-style: italic;
+}
+
+card {
+border-top-left-radius: 20px;
+border-bottom-left-radius: 20px;
+}
+
+.bord_log {
+  border-top-left-radius: 0px;
+border-bottom-left-radius: 0px;
+}
